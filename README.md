@@ -23,12 +23,12 @@ Após passar pelas rotas de autenticação o usuário terá acesso as outras rot
      - checkRoom: Nessa rota o usuário verifica a disponibilidade dessa sala, passando como parâmetros o nome da sala, a data e horário de inicio e fim da possível reserva
      - List: Nessa rota o usuário consegue olhar todas as salas existentes no sistema
  - Booking:
-       - Create: Nessa rota o usuário pode criar uma reserva, passando como parâmetro o nome da sala e a data e hora que gostaria de reservar, o sistema irá verificar se é possível realizar essa reserva(caso tenha uma reserva para a sala com a data de inicio menor que 1 hora, o sistema não irá permitir a reserva).
-       - Cancel: Nessa rota é possível cancelar uma reserva passando como parâmetro o id da reserva, o sistema não permitirá cancelamento se a hora para começar a reserva for menor que 1 hora.
-       - Update: Nessa rota é possível modificar a data/hora de uma reserva, parâmetros serão id da reserva, data/hora de inicio e fim da reserva e novamente o sistema irá verificar a disponibilidade da sala.
-       - List: Nessa rota será listado todas as reservas feitas no sistema.
+     - Create: Nessa rota o usuário pode criar uma reserva, passando como parâmetro o nome da sala e a data e hora que gostaria de reservar, o sistema irá verificar se é possível realizar essa reserva(caso tenha uma reserva para a sala com a data de inicio menor que 1 hora, o sistema não irá permitir a reserva).
+     - Cancel: Nessa rota é possível cancelar uma reserva passando como parâmetro o id da reserva, o sistema não permitirá cancelamento se a hora para começar a reserva for menor que 1 hora.
+     - Update: Nessa rota é possível modificar a data/hora de uma reserva, parâmetros serão id da reserva, data/hora de inicio e fim da reserva e novamente o sistema irá verificar a disponibilidade da sala.
+     - List: Nessa rota será listado todas as reservas feitas no sistema.
  - User:
-       - List: Rota para listar todos os usuários na base.
+     - List: Rota para listar todos os usuários na base.
 
 Configuração:
 docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html laravelsail/php84-composer:latest composer install --ignore-platform-reqs para instalar as dependências do projeto.
