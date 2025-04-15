@@ -1,66 +1,38 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Projeto de gerenciamento de salas
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Projeto em Ambiente Docker em PHP Laravel e banco de dados MySQL.
 
-## About Laravel
+Os seguintes requisitos solicitados foram desenvolvidos:
+ - Criar agendamento de sala (data, horário de inicio/fim, nome da sala)
+ - Criar sala (nome e status (status 0 como inativo e 1 ativo))
+ - Criar usuário (login, senha e adm (campo para indicar se o usuário é um administrador ou não))
+ - Listar reservas realizadas
+ - Listar salas
+ - Listar usuários
+ - Checagem de disponibilidade da sala
+ - Validar conflitos de horário antes de inserir o agendamento
+ - Cancelar ou editar uma reserva
+ - Login de usuário gerando token para validação
+ - Criptografia de senha ao inserir no banco de dados
+ - Checagem de autenticação do usuário
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Para realizar qualquer ação será necessário de um usuário, nas rotas de autenticação é possível se registrar passando como parâmetros login, senha e se é um usuário administrador ou não, após criar o usuário será necessário realizar o login, existe a rota para realizar o login que é necessário passar os parâmetros login e senha, onde o sistema irá verificar a existência do usuário e irá autenticá-lo devolvendo um token que irá expirar em 1 hora. Também é possível checar a autenticação no GET authenticaion.
+Após passar pelas rotas de autenticação o usuário terá acesso as outras rotas disponíveis, tais são:
+ - Room:
+     - Register: Na rota Room será possível registrar uma nova sala se o usuário tiver o campo "adm" como 1, ou seja, se o usuário for um administrador, os parâmetros dessa rota será apenas o nome da sala.
+     - checkRoom: Nessa rota o usuário verifica a disponibilidade dessa sala, passando como parâmetros o nome da sala, a data e horário de inicio e fim da possível reserva
+     - List: Nessa rota o usuário consegue olhar todas as salas existentes no sistema
+ - Booking:
+       - Create: Nessa rota o usuário pode criar uma reserva, passando como parâmetro o nome da sala e a data e hora que gostaria de reservar, o sistema irá verificar se é possível realizar essa reserva(caso tenha uma reserva para a sala com a data de inicio menor que 1 hora, o sistema não irá permitir a reserva).
+       - Cancel: Nessa rota é possível cancelar uma reserva passando como parâmetro o id da reserva, o sistema não permitirá cancelamento se a hora para começar a reserva for menor que 1 hora.
+       - Update: Nessa rota é possível modificar a data/hora de uma reserva, parâmetros serão id da reserva, data/hora de inicio e fim da reserva e novamente o sistema irá verificar a disponibilidade da sala.
+       - List: Nessa rota será listado todas as reservas feitas no sistema.
+ - User:
+       - List: Rota para listar todos os usuários na base.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Configuração:
+docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html laravelsail/php84-composer:latest composer install --ignore-platform-reqs para instalar as dependências do projeto.
+Configurar o .env de forma adequada para rodar no ambiente desejado, com foco nos campos de aplicação (APP_), banco de dados (DB_).
+./vendor/bin/sail up -d para subir o container do projeto.
+./vendor/bin/sail artisan jwt:secret para gerar a chave do JWT.
+./vendor/bin/sail artisan migrate para configurar a estrutura das tabelas.
