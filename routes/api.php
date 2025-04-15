@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthenticatedController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\TokenController;
 use App\Http\Controllers\UserController;
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Http\Request;
@@ -46,6 +47,9 @@ Route::post('/login',function(Request $request){
         ]
     ]);
 });
+
+Route::get('checkToken',[TokenController::class, 'checkToken'])->name('checkToken');
+Route::post('checkToken',[TokenController::class, 'checkToken'])->name('checkToken');
 
 Route::group(['prefix' => 'auth'], function(){
     Route::post('register', [AuthenticatedController::class, 'register']);
